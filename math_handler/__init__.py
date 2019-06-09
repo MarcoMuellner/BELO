@@ -1,0 +1,2 @@
+from math_handler.functions import prob_poiss,poisson,poly_3,linear
+from math_handler.handler import create_poisson_distributions
