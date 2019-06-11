@@ -4,9 +4,16 @@ from math_handler import create_poisson_distributions
 import json
 from pandas import read_csv
 import numpy as np
+import os
 
 use_history=True
 use_simu_history=True
+plot_history=False
+
+try:
+    os.mkdir('history_data/')
+except FileExistsError:
+    pass
 
 data = get_dict()
 data = add_2019_season(data)
@@ -25,8 +32,9 @@ else:
     with open("history_data/elo_history.json",'r') as f:
         elo_history = json.load(f)
 
-elo_history = create_elo_frames(elo_history)
-plot_elo_history(elo_history,2018)
+#elo_history = create_elo_frames(elo_history)
+if plot_history:
+    plot_elo_history(elo_history)
 
 if not use_simu_history:
     popt_poly = create_poisson_distributions(p_list,False)
