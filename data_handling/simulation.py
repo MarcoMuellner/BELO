@@ -211,9 +211,14 @@ def position(posi):
     y = int((posi)%6)
     return x, y
 
+def wedge_center(wedge):
+    theta = (wedge.theta1+wedge.theta2)/2
+    theta = theta/360*2*np.pi
+    r = (1 + wedge.width)/2
+    return (r*np.cos(theta), r*np.sin(theta))
+
+
 def plot_result(res_dict):
-
-
 
     pl.rcParams.update(
         {'font.size': 22, 'axes.labelsize': 'large', 'xtick.labelsize': 'x-large', 'ytick.labelsize': 'x-large',
@@ -239,7 +244,7 @@ def plot_result(res_dict):
     listteams = np.array(listteams)[sortlist]
 
     for i, (team, values) in enumerate(res_dict.items()):
-
+        print(team)
         for k in range(len(listteams)):
             if team == listteams[k]:
                 posi = k
@@ -321,35 +326,41 @@ def plot_result(res_dict):
             im = image.imread(f'logos/{str(team)}.png')
             ax_list_pos[x, y].imshow(im, aspect='auto', extent=(5, 14, 0.7 - 9 / ratio, 0.7), zorder=11)
             ax_list_pos[x, y].set_yticks([0, 0.15, 0.30, 0.45, 0.60, 0.75, 0.90])
-            im = image.imread(f'logos/Schale.png')
-            ax_list_pie[x, y].imshow(im, aspect='auto', extent=(-1.2, -0.7, 0.7, 1.2), zorder=11)
-            ax_list_pie[x, y].plot([-0.95, -0.5], [0.95, 0.5], 'k-', lw=3, zorder=2)
-            ax_list_pie[x, y].plot([-0.95, -0.5], [0.95, 0.5], 'w-', lw=5, zorder=1)
         else:
             ax_list_pos[x, y].set_ylim(0, 0.3)
             im = image.imread(f'logos/{str(team)}.png')
             ratio = get_aspect(ax_list_pos[x, y])
             ax_list_pos[x, y].imshow(im, aspect='auto', extent=(5, 14, 0.23 - 9 / ratio, 0.23), zorder=11)
-        if str(team) == 'Dortmund':
+        if x == 0 and y == 0:
+            wdg_x, wdg_y = wedge_center(wedges[0])
+            im = image.imread(f'logos/Schale.png')
+            ax_list_pie[x, y].imshow(im, aspect='auto', extent=(-1.2, -0.7, 0.7, 1.2), zorder=11)
+            ax_list_pie[x, y].plot([-0.95, wdg_x], [0.95, wdg_y], 'k-', lw=3, zorder=2)
+            ax_list_pie[x, y].plot([-0.95, wdg_x], [0.95, wdg_y], 'w-', lw=5, zorder=1)
+        if x == 0 and y == 1:
+            wdg_x, wdg_y = wedge_center(wedges[1])
             im = image.imread(f'logos/cltrophy.png')
             ax_list_pie[x, y].imshow(im, aspect='auto', extent=(-1.2, -0.6, 0.6, 1.2), zorder=11)
-            ax_list_pie[x, y].plot([-0.95, -0.5], [0.95, 0.5], 'k-', lw=3, zorder=2)
-            ax_list_pie[x, y].plot([-0.95, -0.5], [0.95, 0.5], 'w-', lw=5, zorder=1)
-        if str(team) == 'RB Leipzig':
+            ax_list_pie[x, y].plot([-0.95, wdg_x], [0.95, wdg_y], 'k-', lw=3, zorder=2)
+            ax_list_pie[x, y].plot([-0.95, wdg_x], [0.95, wdg_y], 'w-', lw=5, zorder=1)
+        if x == 0 and y == 2:
+            wdg_x, wdg_y = wedge_center(wedges[2])
             im = image.imread(f'logos/eltrophy.png')
             ax_list_pie[x, y].imshow(im, aspect='auto', extent=(-1.2, -0.6, -1.2, -0.6), zorder=11)
-            ax_list_pie[x, y].plot([-0.9, -0.4], [-0.95, -0.6], 'k-', lw=3, zorder=2)
-            ax_list_pie[x, y].plot([-0.9, -0.4], [-0.95, -0.6], 'w-', lw=5, zorder=1)
-        if str(team) == 'Leverkusen':
+            ax_list_pie[x, y].plot([-0.9, wdg_x], [-0.95, wdg_y], 'k-', lw=3, zorder=2)
+            ax_list_pie[x, y].plot([-0.9, wdg_x], [-0.95, wdg_y], 'w-', lw=5, zorder=1)
+        if x == 0 and y == 3:
+            wdg_x, wdg_y = wedge_center(wedges[4])
             im = image.imread(f'logos/buli.png')
             ax_list_pie[x, y].imshow(im, aspect='auto', extent=(0.7, 1.2, -1.2, -0.7), zorder=11)
-            ax_list_pie[x, y].plot([1, 0.5], [-0.9, -0.5], 'k-', lw=3, zorder=2)
-            ax_list_pie[x, y].plot([1, 0.5], [-0.9, -0.5], 'w-', lw=5, zorder=1)
-        if str(team) == 'Fortuna Dusseldorf':
+            ax_list_pie[x, y].plot([1, wdg_x], [-0.9, wdg_y], 'k-', lw=3, zorder=2)
+            ax_list_pie[x, y].plot([1, wdg_x], [-0.9, wdg_y], 'w-', lw=5, zorder=1)
+        if x == 2 and y == 5:
+            wdg_x, wdg_y = wedge_center(wedges[3])
             im = image.imread(f'logos/abstieg.png')
             ax_list_pie[x, y].imshow(im, aspect='auto', extent=(-1.2, -0.7, 0.7, 1.2), zorder=11)
-            ax_list_pie[x, y].plot([-0.8, -0.3], [0.9, 0.65], 'k-', lw=3, zorder=2)
-            ax_list_pie[x, y].plot([-0.8, -0.3], [0.9, 0.65], 'w-', lw=5, zorder=1)
+            ax_list_pie[x, y].plot([-0.8, wdg_x], [0.9, wdg_y], 'k-', lw=3, zorder=2)
+            ax_list_pie[x, y].plot([-0.8, wdg_x], [0.9, wdg_y], 'w-', lw=5, zorder=1)
         if y in [0] or (y==1 and x == 0):
             ax_list_pos[x, y].spines["top"].set_visible(False)
             ax_list_pos[x, y].spines["right"].set_visible(False)
@@ -365,6 +376,6 @@ def plot_result(res_dict):
 
     fig_pos.tight_layout(h_pad=1, w_pad=0.2)
     fig_pie.tight_layout(h_pad=1, w_pad=0.2)
-    fig_pos.savefig('position_2020.png')
-    fig_pie.savefig('pies_2020.png')
+    fig_pos.savefig('history_data/position.png')
+    fig_pie.savefig('history_data/pies.png')
     #pl.show()
